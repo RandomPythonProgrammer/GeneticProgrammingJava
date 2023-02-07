@@ -4,12 +4,12 @@ public class TreeNode {
     private double data;
     private boolean isFunction;
 
-    public TreeNode(double data, boolean isFunction){
+    public TreeNode(double data, boolean isFunction) {
         this.data = data;
         this.isFunction = isFunction;
     }
 
-    public TreeNode(double data){
+    public TreeNode(double data) {
         this(data, false);
     }
 
@@ -29,5 +29,9 @@ public class TreeNode {
     public TreeNode setFunction(boolean function) {
         isFunction = function;
         return this;
+    }
+
+    public TreeNode clone() {
+        return new TreeNode(data, isFunction);
     }
 }

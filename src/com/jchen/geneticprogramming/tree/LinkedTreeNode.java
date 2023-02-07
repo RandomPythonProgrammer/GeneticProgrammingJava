@@ -1,9 +1,8 @@
 package com.jchen.geneticprogramming.tree;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class LinkedTreeNode extends TreeNode{
+public class LinkedTreeNode extends TreeNode {
 
     private LinkedTreeNode parent;
     private List<LinkedTreeNode> children;
@@ -34,7 +33,14 @@ public class LinkedTreeNode extends TreeNode{
         return this;
     }
 
-    public LinkedTreeNode getChild(int child){
+    public LinkedTreeNode getChild(int child) {
         return this.children.get(child);
+    }
+
+    @Override
+    public LinkedTreeNode clone() {
+        LinkedTreeNode clone = new LinkedTreeNode(getData(), isFunction());
+        clone.setChildren(children.stream().map(LinkedTreeNode::clone).toList());
+        return clone;
     }
 }

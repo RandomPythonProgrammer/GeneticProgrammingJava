@@ -7,33 +7,22 @@ public class LinkedTree implements Tree {
 
     private LinkedTreeNode root;
     private LinkedTreeNode current;
-    private int childCount, depth;
 
-    public LinkedTree(int childCount, int depth) {
-        this.childCount = childCount;
-        this.depth = depth;
-        root = createBranch(new LinkedTreeNode(0), 1);
+    public LinkedTree(boolean generate) {
+        if (generate)
+            root = createBranch(new LinkedTreeNode(0), 1);
     }
 
     public LinkedTreeNode createBranch(LinkedTreeNode node, int depth) {
-        if (depth <= this.depth) {
+        if (depth < this.DEPTH) {
             ArrayList<LinkedTreeNode> children = new ArrayList<>();
+            int childCount = (int) (Math.random() * CHILDREN);
             for (int i = 0; i < childCount; i++) {
                 children.add(createBranch(new LinkedTreeNode(0), depth + 1));
             }
             node.setChildren(children);
         }
         return node;
-    }
-
-    @Override
-    public int getChildCount() {
-        return childCount;
-    }
-
-    @Override
-    public int getDepth() {
-        return depth;
     }
 
     @Override
@@ -53,13 +42,13 @@ public class LinkedTree implements Tree {
 
     @Override
     public LinkedTreeNode getRoot() {
-        return root;
+        return current = root;
     }
 
     @Override
     public LinkedTreeNode getNode(List<Integer> indexes) {
         current = root;
-        for (int i: indexes){
+        for (int i : indexes) {
             current = current.getChild(i);
         }
         return root;
@@ -67,8 +56,9 @@ public class LinkedTree implements Tree {
 
     @Override
     public Tree clone() {
-        LinkedTree clone = new LinkedTree(childCount, depth);
-
+        LinkedTree clone = new LinkedTree(false);
+        clone.root = root.clone();
+        return clone;
     }
 
     @Override
@@ -79,5 +69,11 @@ public class LinkedTree implements Tree {
     @Override
     public Tree crossOver(Tree other) {
         return null;
+    }
+
+    @Override
+    public Tree setCurrent(TreeNode node) {
+        current = (LinkedTreeNode) node;
+        return this;
     }
 }
