@@ -1,5 +1,6 @@
 package com.jchen.geneticprogramming.tree;
 
+import java.util.HashMap;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.ExecutorService;
@@ -24,9 +25,12 @@ public class HeapTree implements Tree {
             size += Math.pow(2, i);
         }
         nodes = new TreeNode[size];
-        if (generate)
-            for (int i = 0; i < size; i++)
-                nodes[i] = new TreeNode(0, i < Math.pow(DEPTH, 2));
+        if (generate) {
+            for (int i = 0; i < size; i++) {
+                TreeNode node = new TreeNode();
+                node.generate(i < size - Math.pow(DEPTH, 2));
+            }
+        }
     }
 
 
@@ -93,5 +97,10 @@ public class HeapTree implements Tree {
     @Override
     public int getNodeCount() {
         return nodes.length;
+    }
+
+    @Override
+    public int evaluate() {
+
     }
 }

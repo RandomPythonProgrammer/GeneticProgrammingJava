@@ -1,6 +1,11 @@
 package com.jchen.geneticprogramming.tree;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public interface Tree {
+
+    Map<String, Integer> VARIABLES = Map.of("a", 10);
 
     TreeNode getCurrent();
 
@@ -19,4 +24,6 @@ public interface Tree {
     Tree setCurrent(TreeNode node);
 
     int getNodeCount();
+
+    int evaluate();
 }

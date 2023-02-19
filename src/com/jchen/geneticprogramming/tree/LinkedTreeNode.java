@@ -8,22 +8,18 @@ public class LinkedTreeNode extends TreeNode {
     private LinkedTreeNode parent;
     private List<LinkedTreeNode> children;
 
-    public LinkedTreeNode(LinkedTreeNode parent, double data, boolean isFunction) {
-        super(data, isFunction);
+    public LinkedTreeNode(LinkedTreeNode parent, String data) {
+        super(data);
         this.parent = parent;
         children = new ArrayList<>();
     }
 
-    public LinkedTreeNode(LinkedTreeNode parent, double data) {
-        this(parent, data, false);
-    }
-
-    public LinkedTreeNode(double data){
+    public LinkedTreeNode(String data){
         this(null, data);
     }
 
-    public LinkedTreeNode(double data, boolean isFunction){
-        this(null, data, isFunction);
+    public LinkedTreeNode() {
+        this(null, "");
     }
 
     public LinkedTreeNode getParent() {
@@ -50,7 +46,7 @@ public class LinkedTreeNode extends TreeNode {
 
     @Override
     public LinkedTreeNode clone() {
-        LinkedTreeNode clone = new LinkedTreeNode(getData(), isFunction());
+        LinkedTreeNode clone = new LinkedTreeNode(getData());
         clone.setChildren(children.stream().map(LinkedTreeNode::clone).toList());
         return clone;
     }
