@@ -1,5 +1,6 @@
 package com.jchen.geneticprogramming.tree;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class LinkedTreeNode extends TreeNode {
@@ -7,12 +8,22 @@ public class LinkedTreeNode extends TreeNode {
     private LinkedTreeNode parent;
     private List<LinkedTreeNode> children;
 
-    public LinkedTreeNode(double data, boolean isFunction) {
+    public LinkedTreeNode(LinkedTreeNode parent, double data, boolean isFunction) {
         super(data, isFunction);
+        this.parent = parent;
+        children = new ArrayList<>();
     }
 
-    public LinkedTreeNode(double data) {
-        super(data);
+    public LinkedTreeNode(LinkedTreeNode parent, double data) {
+        this(parent, data, false);
+    }
+
+    public LinkedTreeNode(double data){
+        this(null, data);
+    }
+
+    public LinkedTreeNode(double data, boolean isFunction){
+        this(null, data, isFunction);
     }
 
     public LinkedTreeNode getParent() {

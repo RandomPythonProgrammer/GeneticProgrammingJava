@@ -5,20 +5,32 @@ import java.util.List;
 
 public class LinkedTree implements Tree {
 
+    public static final int DEPTH = 20;
+
     private LinkedTreeNode root;
     private LinkedTreeNode current;
+    private int nodeCount;
 
     public LinkedTree(boolean generate) {
-        if (generate)
+        nodeCount = 0;
+        if (generate) {
+            nodeCount++;
             root = createBranch(new LinkedTreeNode(0), 1);
+        }
+        current = root;
     }
 
     public LinkedTreeNode createBranch(LinkedTreeNode node, int depth) {
         if (depth < this.DEPTH) {
             ArrayList<LinkedTreeNode> children = new ArrayList<>();
-            int childCount = (int) (Math.random() * CHILDREN);
+            double random = Math.random();
+            int childCount = 0;
+            if (random >= ((double) depth)/(DEPTH * 10)) {
+                childCount = 2;
+            }
             for (int i = 0; i < childCount; i++) {
-                children.add(createBranch(new LinkedTreeNode(0), depth + 1));
+                nodeCount++;
+                children.add(createBranch(new LinkedTreeNode(0, depth == this.DEPTH-1), depth + 1));
             }
             node.setChildren(children);
         }
@@ -45,7 +57,6 @@ public class LinkedTree implements Tree {
         return current = root;
     }
 
-    @Override
     public LinkedTreeNode getNode(List<Integer> indexes) {
         current = root;
         for (int i : indexes) {
@@ -58,6 +69,7 @@ public class LinkedTree implements Tree {
     public Tree clone() {
         LinkedTree clone = new LinkedTree(false);
         clone.root = root.clone();
+        clone.nodeCount = nodeCount;
         return clone;
     }
 
@@ -75,5 +87,10 @@ public class LinkedTree implements Tree {
     public Tree setCurrent(TreeNode node) {
         current = (LinkedTreeNode) node;
         return this;
+    }
+
+    @Override
+    public int getNodeCount() {
+        return nodeCount;
     }
 }
