@@ -1,6 +1,5 @@
 package com.jchen.geneticprogramming.tree;
 
-import java.util.HashMap;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.ExecutorService;
@@ -19,7 +18,7 @@ public class HeapTree implements Tree {
 
     public HeapTree(boolean generate) {
         executor = Executors.newFixedThreadPool(THREADS);
-        barrier = new CyclicBarrier(THREADS+1);
+        barrier = new CyclicBarrier(THREADS + 1);
         size = 0;
         for (int i = 0; i < DEPTH; i++) {
             size += Math.pow(2, i);
@@ -67,13 +66,13 @@ public class HeapTree implements Tree {
                     }
                     try {
                         barrier.await();
-                    } catch (BrokenBarrierException | InterruptedException e){
+                    } catch (BrokenBarrierException | InterruptedException e) {
                         System.getLogger("HeapTree").log(System.Logger.Level.ERROR, "Failed to clone tree");
                     }
                 });
             }
             barrier.await();
-        } catch (BrokenBarrierException | InterruptedException e){
+        } catch (BrokenBarrierException | InterruptedException e) {
             System.getLogger("HeapTree").log(System.Logger.Level.ERROR, "Failed to clone tree");
         }
         return clone;
@@ -101,6 +100,6 @@ public class HeapTree implements Tree {
 
     @Override
     public int evaluate() {
-
+        return 0;
     }
 }
