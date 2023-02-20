@@ -101,6 +101,10 @@ public class HeapTree implements Tree {
 
     @Override
     public int evaluate() {
+        int[] evaluation = new int[nodes.length];
+        for (int i = DEPTH; i >= 0; i--){
 
+        }
+        return 0;
     }
 }

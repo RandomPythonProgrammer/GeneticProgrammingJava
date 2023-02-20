@@ -1,7 +1,7 @@
 package com.jchen.geneticprogramming.algorithm;
 
 public class GeneticOperations {
-    public static void train(){
+    public static void train() {
 
     }
 }
