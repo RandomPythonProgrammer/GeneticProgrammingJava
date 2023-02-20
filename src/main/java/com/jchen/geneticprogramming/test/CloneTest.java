@@ -31,7 +31,7 @@ public class CloneTest {
             csv.addLine(List.of(String.valueOf(linkedTreeScaledTime), String.valueOf(heapTreeScaledTime), String.valueOf(linkedTreeScaledTime / heapTreeScaledTime)));
         }
 
-        csv.write("C:\\Users\\Joshua\\Desktop\\Data.csv");
+        csv.write("C:\\Users\\Joshua\\Desktop\\Clone_Data.csv");
         System.out.println("Finished Data Collection");
     }
 }

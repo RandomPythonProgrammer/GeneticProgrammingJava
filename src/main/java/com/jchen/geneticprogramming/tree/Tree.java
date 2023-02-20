@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public interface Tree {
-
+    double MUTATION_RATE = 0.2;
     Map<String, Integer> VARIABLES = Map.of("a", 10);
 
     TreeNode getCurrent();

@@ -77,7 +77,15 @@ public class LinkedTree implements Tree {
 
     @Override
     public Tree mutate() {
-        return null;
+        mutate(root);
+        return this;
+    }
+
+    public void mutate(LinkedTreeNode node){
+        if (Math.random() <= Tree.MUTATION_RATE) {
+            node.generate(node.getChildren().size() != 0);
+        }
+        node.getChildren().forEach(this::mutate);
     }
 
     @Override

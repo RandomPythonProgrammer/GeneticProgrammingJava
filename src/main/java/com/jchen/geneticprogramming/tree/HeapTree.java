@@ -26,8 +26,7 @@ public class HeapTree implements Tree {
         nodes = new TreeNode[size];
         if (generate) {
             for (int i = 0; i < size; i++) {
-                TreeNode node = new TreeNode();
-                node.generate(i < size - Math.pow(DEPTH, 2));
+                nodes[i] = (new TreeNode()).generate(i < size - Math.pow(2, DEPTH-1));
             }
         }
     }
@@ -80,7 +79,12 @@ public class HeapTree implements Tree {
 
     @Override
     public Tree mutate() {
-        return null;
+        for (int i = 0; i < size; i++) {
+            if (Math.random() <= MUTATION_RATE) {
+                nodes[i] = (new TreeNode()).generate(i < size - Math.pow(2, DEPTH - 1));
+            }
+        };
+        return this;
     }
 
     @Override
@@ -100,6 +104,36 @@ public class HeapTree implements Tree {
 
     @Override
     public int evaluate() {
+        return evaluate(0);
+    }
+
+    public int evaluate(int nodeIndex) {
+        TreeNode node = nodes[nodeIndex];
+        if (node.isFunction()) {
+            int a = evaluate(nodeIndex * 2 + 1);
+            int b = evaluate(nodeIndex * 2 + 2);
+            switch (node.getData()) {
+                case "or":
+                    return a | b;
+                case "xor":
+                    return a ^ b;
+                case "nor":
+                    return ~(a | b);
+                case "xnor":
+                    return ~(a ^ b);
+                case "and":
+                    return a & b;
+                case "nand":
+                    return ~(a & b);
+            }
+        } else {
+            if (VARIABLES.containsKey(node.getData())){
+                return VARIABLES.get(node.getData());
+            } else {
+                return Integer.parseInt(node.getData());
+            }
+        }
+        System.out.println("Failed to evaluate");
         return 0;
     }
 }
