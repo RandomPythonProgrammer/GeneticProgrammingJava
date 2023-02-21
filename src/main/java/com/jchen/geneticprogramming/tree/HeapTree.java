@@ -7,7 +7,7 @@ import java.util.concurrent.Executors;
 
 public class HeapTree implements Tree {
 
-    public static final int DEPTH = 20;
+    public static final int DEPTH = 19;
 
     private int current = 0;
     private TreeNode[] nodes;
