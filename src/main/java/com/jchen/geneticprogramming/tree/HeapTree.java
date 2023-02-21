@@ -12,12 +12,11 @@ public class HeapTree implements Tree {
     private int current = 0;
     private TreeNode[] nodes;
     public static final int THREADS = 12;
-    private ExecutorService executor;
+    private static final ExecutorService EXECUTOR = Executors.newFixedThreadPool(THREADS);;
     public CyclicBarrier barrier;
     private int size;
 
     public HeapTree(boolean generate) {
-        executor = Executors.newFixedThreadPool(THREADS);
         barrier = new CyclicBarrier(THREADS + 1);
         size = 0;
         for (int i = 0; i < DEPTH; i++) {
@@ -59,8 +58,9 @@ public class HeapTree implements Tree {
         try {
             int work = Math.ceilDiv(size, THREADS);
             for (int i = 0; i < THREADS; i++) {
-                executor.submit(() -> {
-                    for (int j = work * THREADS; j < size && j < (work + 1) * THREADS; j++) {
+                int index = i;
+                HeapTree.EXECUTOR.submit(() -> {
+                    for (int j = work * index; j < size && j < work * (index+1); j++) {
                         clone.nodes[j] = nodes[j].clone();
                     }
                     try {
