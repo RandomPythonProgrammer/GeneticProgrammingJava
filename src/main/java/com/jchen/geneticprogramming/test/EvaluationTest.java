@@ -10,27 +10,39 @@ import java.util.List;
 public class EvaluationTest {
     public static void main(String[] args) {
         Csv csv = new Csv();
-        csv.addLine(List.of("Linked Tree Scaled Time:", "Heap Tree Scaled Time:", "Linked Tree / Heap Tree Ratio:"));
+        csv.addLine(List.of(
+                "Linked Tree Node Count",
+                "Heap Tree Node Count",
+                "Linked Tree Scaled Time (ns)",
+                "Heap Tree Scaled Time (ns)",
+                "Linked Tree / Heap Tree Ratio:"
+        ));
 
         for (int i = 0; i < 100; i++) {
             //Testing the LinkedTree
             LinkedTree linkedTree = new LinkedTree(true);
-            long linkedTreeStart = System.currentTimeMillis();
+            long linkedTreeStart = System.nanoTime();
             int linkedTreeResult = linkedTree.evaluate();
-            long linkedTreeTime = System.currentTimeMillis() - linkedTreeStart;
+            long linkedTreeTime = System.nanoTime() - linkedTreeStart;
             double linkedTreeScaledTime = ((double) linkedTreeTime) / linkedTree.getNodeCount();
 
             //Testing the HeapTree
             HeapTree heapTree = new HeapTree(true);
-            long heapTreeStart = System.currentTimeMillis();
+            long heapTreeStart = System.nanoTime();
             int heapTreeResult = heapTree.evaluate();
-            long heapTreeTime = System.currentTimeMillis() - heapTreeStart;
+            long heapTreeTime = System.nanoTime() - heapTreeStart;
             double heapTreeScaledTime = ((double) heapTreeTime) / heapTree.getNodeCount();
 
-            csv.addLine(List.of(String.valueOf(linkedTreeScaledTime), String.valueOf(heapTreeScaledTime), String.valueOf(linkedTreeScaledTime / heapTreeScaledTime)));
+            csv.addLine(List.of(
+                    String.valueOf(linkedTree.getNodeCount()),
+                    String.valueOf(heapTree.getNodeCount()),
+                    String.valueOf(linkedTreeScaledTime),
+                    String.valueOf(heapTreeScaledTime),
+                    String.valueOf(linkedTreeScaledTime / heapTreeScaledTime)
+            ));
         }
 
-        csv.write("C:\\Users\\Joshua\\Desktop\\Evaluation_Data.csv");
+        csv.write("C:\\Users\\JC200\\Desktop\\Evaluation_Data.csv");
         System.out.println("Finished Data Collection");
     }
 }

@@ -49,6 +49,11 @@ public class TreeNode {
         return false;
     }
 
+    public TreeNode clone(TreeNode other) {
+        data = other.data;
+        return this;
+    }
+
     public static int or(TreeNode a, TreeNode b) {
         return Integer.parseInt(a.getData()) | Integer.parseInt(b.getData());
     }

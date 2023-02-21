@@ -6,7 +6,7 @@ import java.util.List;
 
 public class LinkedTree implements Tree {
 
-    public static final int DEPTH = 20;
+    public static final int DEPTH = 15;
 
     private LinkedTreeNode root;
     private LinkedTreeNode current;
@@ -38,27 +38,6 @@ public class LinkedTree implements Tree {
         node.generate(childCount != 0);
         return node;
     }
-
-    @Override
-    public LinkedTreeNode getCurrent() {
-        return current;
-    }
-
-    @Override
-    public LinkedTreeNode getChild(int child) {
-        return current = current.getChild(child);
-    }
-
-    @Override
-    public LinkedTreeNode getParent() {
-        return current = current.getParent();
-    }
-
-    @Override
-    public LinkedTreeNode getRoot() {
-        return current = root;
-    }
-
     public LinkedTreeNode getNode(List<Integer> indexes) {
         current = root;
         for (int i : indexes) {
@@ -91,13 +70,19 @@ public class LinkedTree implements Tree {
 
     @Override
     public Tree crossOver(Tree other) {
-        return null;
-    }
+        double random = Math.random();
+        Tree clone = clone();
+        Tree otherClone = other.clone();
+        LinkedTree target = (LinkedTree) (random < 0.5 ? clone: otherClone);
+        LinkedTree origin = (LinkedTree) (random < 0.5 ? otherClone: clone);
 
-    @Override
-    public Tree setCurrent(TreeNode node) {
-        current = (LinkedTreeNode) node;
-        return this;
+        LinkedTreeNode targetNode = (LinkedTreeNode) target.toList().get((int) (Math.random() * target.getNodeCount()));
+        LinkedTreeNode originNode = (LinkedTreeNode) origin.toList().get((int) (Math.random() * origin.getNodeCount()));
+
+        //Todo: Change tree size after crossover
+        targetNode.clone(originNode);
+
+        return target;
     }
 
     @Override
@@ -108,6 +93,19 @@ public class LinkedTree implements Tree {
     @Override
     public int evaluate() {
         return evaluate(root);
+    }
+
+    @Override
+    public List<TreeNode> toList() {
+        return toList(root);
+    }
+
+    public List<TreeNode> toList(LinkedTreeNode node){
+        ArrayList<TreeNode> nodes = new ArrayList<>(List.of(node));
+        for (LinkedTreeNode child: node.getChildren()){
+            nodes.addAll(toList(child));
+        }
+        return nodes;
     }
 
     public int evaluate(LinkedTreeNode node) {
