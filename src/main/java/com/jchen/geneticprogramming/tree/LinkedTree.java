@@ -31,7 +31,7 @@ public class LinkedTree implements Tree {
             }
             for (int i = 0; i < childCount; i++) {
                 nodeCount++;
-                children.add(createBranch(new LinkedTreeNode(), depth + 1));
+                children.add(createBranch((new LinkedTreeNode()).setParent(node), depth + 1));
             }
             node.setChildren(children);
         }
@@ -72,6 +72,7 @@ public class LinkedTree implements Tree {
         LinkedTree clone = new LinkedTree(false);
         clone.root = root.clone();
         clone.nodeCount = nodeCount;
+        clone.current = clone.root;
         return clone;
     }
 

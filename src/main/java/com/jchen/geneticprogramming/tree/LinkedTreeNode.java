@@ -47,7 +47,7 @@ public class LinkedTreeNode extends TreeNode {
     @Override
     public LinkedTreeNode clone() {
         LinkedTreeNode clone = new LinkedTreeNode(getData());
-        clone.setChildren(children.stream().map(LinkedTreeNode::clone).toList());
+        clone.setChildren(children.stream().map((node) -> node.clone().setParent(clone)).toList());
         return clone;
     }
 }
