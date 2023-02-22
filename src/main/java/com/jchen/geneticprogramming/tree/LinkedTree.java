@@ -6,7 +6,7 @@ import java.util.List;
 
 public class LinkedTree implements Tree {
 
-    public static final int DEPTH = 15;
+    public static final int DEPTH = 8;
 
     private LinkedTreeNode root;
     private LinkedTreeNode current;
@@ -76,8 +76,10 @@ public class LinkedTree implements Tree {
         LinkedTree target = (LinkedTree) (random < 0.5 ? clone: otherClone);
         LinkedTree origin = (LinkedTree) (random < 0.5 ? otherClone: clone);
 
-        LinkedTreeNode targetNode = (LinkedTreeNode) target.toList().get((int) (Math.random() * target.getNodeCount()));
-        LinkedTreeNode originNode = (LinkedTreeNode) origin.toList().get((int) (Math.random() * origin.getNodeCount()));
+        List<TreeNode> targetNodes = target.toList();
+        List<TreeNode> originNodes = origin.toList();
+        LinkedTreeNode targetNode = (LinkedTreeNode) targetNodes.get((int) (Math.random() * targetNodes.size()));
+        LinkedTreeNode originNode = (LinkedTreeNode) originNodes.get((int) (Math.random() * originNodes.size()));
 
         //Todo: Change tree size after crossover
         targetNode.clone(originNode);

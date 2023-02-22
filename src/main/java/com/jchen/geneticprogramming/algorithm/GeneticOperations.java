@@ -18,9 +18,9 @@ public class GeneticOperations {
         }
 
         for (int epoch = 0; epoch < epochs; epoch++) {
-            organisms.replaceAll((k, v) -> getError(k.evaluate(), target));
+            organisms.replaceAll((k, v) -> 1 - getError(k.evaluate(), target));
 
-            System.out.println(Collections.min(organisms.values()));
+            System.out.println(Collections.max(organisms.values()));
 
             HashMap<Tree, Double> nextGeneration = new HashMap<>();
             while (nextGeneration.size() < populationSize) {
