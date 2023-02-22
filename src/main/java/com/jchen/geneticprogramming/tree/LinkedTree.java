@@ -3,10 +3,11 @@ package com.jchen.geneticprogramming.tree;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.function.IntSupplier;
 
 public class LinkedTree implements Tree {
 
-    public static final int DEPTH = 8;
+    public static final int DEPTH = 6;
 
     private LinkedTreeNode root;
     private LinkedTreeNode current;
@@ -56,16 +57,16 @@ public class LinkedTree implements Tree {
     }
 
     @Override
-    public Tree mutate() {
-        mutate(root);
+    public Tree mutate(double rate) {
+        mutate(root, rate);
         return this;
     }
 
-    public void mutate(LinkedTreeNode node){
-        if (Math.random() <= Tree.MUTATION_RATE) {
+    private void mutate(LinkedTreeNode node, double rate){
+        if (Math.random() <= rate) {
             node.generate(node.getChildren().size() != 0);
         }
-        node.getChildren().forEach(this::mutate);
+        node.getChildren().forEach((child) -> mutate(child, rate));
     }
 
     @Override
@@ -78,8 +79,11 @@ public class LinkedTree implements Tree {
 
         List<TreeNode> targetNodes = target.toList();
         List<TreeNode> originNodes = origin.toList();
-        LinkedTreeNode targetNode = (LinkedTreeNode) targetNodes.get((int) (Math.random() * targetNodes.size()));
-        LinkedTreeNode originNode = (LinkedTreeNode) originNodes.get((int) (Math.random() * originNodes.size()));
+
+        double pos = Math.random();
+
+        LinkedTreeNode targetNode = (LinkedTreeNode) targetNodes.get((int) (pos * targetNodes.size()));
+        LinkedTreeNode originNode = (LinkedTreeNode) originNodes.get((int) (pos * originNodes.size()));
 
         //Todo: Change tree size after crossover
         targetNode.clone(originNode);
@@ -93,8 +97,8 @@ public class LinkedTree implements Tree {
     }
 
     @Override
-    public int evaluate() {
-        return evaluate(root);
+    public int evaluate(int input) {
+        return evaluate(root, input);
     }
 
     @Override
@@ -102,7 +106,7 @@ public class LinkedTree implements Tree {
         return toList(root);
     }
 
-    public List<TreeNode> toList(LinkedTreeNode node){
+    private List<TreeNode> toList(LinkedTreeNode node){
         ArrayList<TreeNode> nodes = new ArrayList<>(List.of(node));
         for (LinkedTreeNode child: node.getChildren()){
             nodes.addAll(toList(child));
@@ -110,10 +114,10 @@ public class LinkedTree implements Tree {
         return nodes;
     }
 
-    public int evaluate(LinkedTreeNode node) {
+    private int evaluate(LinkedTreeNode node, int input) {
         if (node.isFunction()) {
-            int a = evaluate(node.getChild(0));
-            int b = evaluate(node.getChild(1));
+            int a = evaluate(node.getChild(0), input);
+            int b = evaluate(node.getChild(1), input);
             switch (node.getData()) {
                 case "or":
                     return a | b;
@@ -129,8 +133,8 @@ public class LinkedTree implements Tree {
                     return ~(a & b);
             }
         } else {
-            if (VARIABLES.containsKey(node.getData())){
-                return VARIABLES.get(node.getData());
+            if (node.getData().equals("input")){
+                return input;
             } else {
                 return Integer.parseInt(node.getData());
             }

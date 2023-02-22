@@ -8,9 +8,7 @@ import java.util.concurrent.Executors;
 
 public class HeapTree implements Tree {
 
-    public static final int DEPTH = 13;
-
-    private int current = 0;
+    public static final int DEPTH = 5;
     private TreeNode[] nodes;
     public static final int THREADS = 12;
     private static final ExecutorService EXECUTOR = Executors.newFixedThreadPool(THREADS);;
@@ -58,9 +56,9 @@ public class HeapTree implements Tree {
     }
 
     @Override
-    public Tree mutate() {
+    public Tree mutate(double rate) {
         for (int i = 0; i < size; i++) {
-            if (Math.random() <= MUTATION_RATE) {
+            if (Math.random() <= rate) {
                 nodes[i] = (new TreeNode()).generate(i < size - Math.pow(2, DEPTH - 1));
             }
         };
@@ -69,7 +67,24 @@ public class HeapTree implements Tree {
 
     @Override
     public Tree crossOver(Tree other) {
-        return null;
+        int index = (int) (Math.random() * nodes.length);
+
+        double random = Math.random();
+        Tree clone = clone();
+        Tree otherClone = other.clone();
+        HeapTree target = (HeapTree) (random < 0.5 ? clone: otherClone);
+        HeapTree origin = (HeapTree) (random < 0.5 ? otherClone: clone);
+
+        crossOver(index, origin, target);
+        return target;
+    }
+
+    private void crossOver(int index, HeapTree origin, HeapTree target) {
+        if (index < origin.getNodeCount()) {
+            target.nodes[index] = origin.nodes[index];
+            crossOver(2 * index + 1, origin, target);
+            crossOver(2 * index + 2, origin, target);
+        }
     }
 
 
@@ -79,8 +94,8 @@ public class HeapTree implements Tree {
     }
 
     @Override
-    public int evaluate() {
-        return evaluate(0);
+    public int evaluate(int input) {
+        return evaluate(0, input);
     }
 
     @Override
@@ -88,11 +103,11 @@ public class HeapTree implements Tree {
         return null;
     }
 
-    public int evaluate(int nodeIndex) {
+    private int evaluate(int nodeIndex, int input) {
         TreeNode node = nodes[nodeIndex];
         if (node.isFunction()) {
-            int a = evaluate(nodeIndex * 2 + 1);
-            int b = evaluate(nodeIndex * 2 + 2);
+            int a = evaluate(nodeIndex * 2 + 1, input);
+            int b = evaluate(nodeIndex * 2 + 2, input);
             switch (node.getData()) {
                 case "or":
                     return a | b;
@@ -108,8 +123,8 @@ public class HeapTree implements Tree {
                     return ~(a & b);
             }
         } else {
-            if (VARIABLES.containsKey(node.getData())){
-                return VARIABLES.get(node.getData());
+            if (node.getData().equals("input")){
+                return input;
             } else {
                 return Integer.parseInt(node.getData());
             }

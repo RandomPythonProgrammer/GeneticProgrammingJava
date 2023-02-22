@@ -17,11 +17,10 @@ public class TreeNode {
         if (isFunction) {
             data = functions[(int) (Math.random() * functions.length)];
         } else {
-            if (Math.random() > 0.25) {
+            if (Math.random() > 0.15) {
                 data = String.valueOf((int) Math.round(Math.random() * Integer.MAX_VALUE));
             } else {
-                String[] keys = Tree.VARIABLES.keySet().toArray(new String[0]);
-                data = keys[(int) (Math.random() * keys.length)];
+                data = "input";
             }
         }
         return this;

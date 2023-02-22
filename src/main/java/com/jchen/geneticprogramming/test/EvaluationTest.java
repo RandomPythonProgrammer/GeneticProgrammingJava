@@ -22,14 +22,14 @@ public class EvaluationTest {
             //Testing the LinkedTree
             LinkedTree linkedTree = new LinkedTree(true);
             long linkedTreeStart = System.nanoTime();
-            int linkedTreeResult = linkedTree.evaluate();
+            int linkedTreeResult = linkedTree.evaluate(0);
             long linkedTreeTime = System.nanoTime() - linkedTreeStart;
             double linkedTreeScaledTime = ((double) linkedTreeTime) / linkedTree.getNodeCount();
 
             //Testing the HeapTree
             HeapTree heapTree = new HeapTree(true);
             long heapTreeStart = System.nanoTime();
-            int heapTreeResult = heapTree.evaluate();
+            int heapTreeResult = heapTree.evaluate(0);
             long heapTreeTime = System.nanoTime() - heapTreeStart;
             double heapTreeScaledTime = ((double) heapTreeTime) / heapTree.getNodeCount();
 

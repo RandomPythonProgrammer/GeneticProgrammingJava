@@ -6,17 +6,16 @@ import java.util.Map;
 
 public interface Tree {
     double MUTATION_RATE = 0.2;
-    Map<String, Integer> VARIABLES = Map.of("a", 10);
 
     Tree clone();
 
-    Tree mutate();
+    Tree mutate(double rate);
 
     Tree crossOver(Tree other);
 
     int getNodeCount();
 
-    int evaluate();
+    int evaluate(int input);
 
     List<TreeNode> toList();
 }

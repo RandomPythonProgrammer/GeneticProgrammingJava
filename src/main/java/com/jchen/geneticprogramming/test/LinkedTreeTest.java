@@ -16,7 +16,7 @@ public class LinkedTreeTest {
 
         System.out.println("-------------------------------");
 
-        copy.mutate();
+        copy.mutate(1);
         System.out.println(copy.getNodeCount());
         System.out.println(copy.toList().size());
     }
