@@ -7,7 +7,7 @@ import java.util.function.IntSupplier;
 
 public class LinkedTree implements Tree {
 
-    public static final int DEPTH = 6;
+    public static final int DEPTH = 7;
 
     private LinkedTreeNode root;
     private LinkedTreeNode current;
