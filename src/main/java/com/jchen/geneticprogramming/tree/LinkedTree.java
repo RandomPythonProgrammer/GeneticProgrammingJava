@@ -38,14 +38,6 @@ public class LinkedTree implements Tree {
         return node;
     }
 
-    public LinkedTreeNode getNode(List<Integer> indexes) {
-        current = root;
-        for (int i : indexes) {
-            current = current.getChild(i);
-        }
-        return root;
-    }
-
     @Override
     public Tree clone() {
         LinkedTree clone = new LinkedTree(false);
@@ -92,7 +84,15 @@ public class LinkedTree implements Tree {
 
     @Override
     public int getNodeCount() {
-        return nodeCount;
+        return getNodeCount(root);
+    }
+
+    private int getNodeCount(LinkedTreeNode node) {
+        int nodes = 1;
+        for (LinkedTreeNode child: node.getChildren()){
+            nodes += getNodeCount(child);
+        }
+        return nodes;
     }
 
     @Override
