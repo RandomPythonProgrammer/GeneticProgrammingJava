@@ -3,7 +3,6 @@ package com.jchen.graph;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.awt.image.ImageObserver;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -127,29 +126,29 @@ public class Graph {
             int scaledX = (int) (width * 0.1);
             int scaledY = height - (int) (((y / maxY) * 0.8 + 0.1) * height);
             String text = doubleString(y);
-            graphics.drawString(text, scaledX - (text.length() * fontSize * 4f / 3)/2, scaledY + (fontSize * 4 / 3f) / 4);
+            graphics.drawString(text, scaledX - (text.length() * fontSize * 4f / 3) / 2, scaledY + (fontSize * 4 / 3f) / 4);
             graphics.setStroke(new BasicStroke(strokeSize / 2f));
             int topX = (int) (width * 0.9);
             graphics.drawLine(scaledX, scaledY, topX, scaledY);
         }
 
         if (title != null) {
-            graphics.drawString(title, width / 2f - ((title.length() / 2f) * fontSize * 4 / 3)/2, fontSize * 4f / 3);
+            graphics.drawString(title, width / 2f - ((title.length() / 2f) * fontSize * 4 / 3) / 2, fontSize * 4f / 3);
         }
 
         if (xAxis != null) {
-            graphics.drawString(xAxis, width / 2f - ((xAxis.length() / 2f) * fontSize * 4 / 3)/2, height - fontSize * 4f / 3);
+            graphics.drawString(xAxis, width / 2f - ((xAxis.length() / 2f) * fontSize * 4 / 3) / 2, height - fontSize * 4f / 3);
         }
 
         if (yAxis != null) {
-            BufferedImage text = new BufferedImage((int) ((yAxis.length() * 4f/3 * fontSize)/2), (int) (4f/3 * fontSize * 1.5), BufferedImage.TYPE_INT_ARGB);
+            BufferedImage text = new BufferedImage((int) ((yAxis.length() * 4f / 3 * fontSize) / 2), (int) (4f / 3 * fontSize * 1.5), BufferedImage.TYPE_INT_ARGB);
             Graphics2D textGraphics = (Graphics2D) text.getGraphics();
             textGraphics.setFont(new Font("Arial", Font.PLAIN, fontSize));
             textGraphics.setColor(Color.BLACK);
             textGraphics.setBackground(new Color(0, 0, 0, 0));
-            textGraphics.drawString(yAxis, 0,  (int) (4f/3 * fontSize));
-            textGraphics.rotate(-Math.PI/2);
-            textGraphics.translate(-(height/2 + text.getWidth()/2), 0);
+            textGraphics.drawString(yAxis, 0, (int) (4f / 3 * fontSize));
+            textGraphics.rotate(-Math.PI / 2);
+            textGraphics.translate(-(height / 2 + text.getWidth() / 2), 0);
             graphics.drawImage(text, textGraphics.getTransform(), null);
         }
 
