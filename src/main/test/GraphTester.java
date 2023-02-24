@@ -7,6 +7,7 @@ public class GraphTester {
     public static void main(String[] args) {
         Graph graph = new Graph(500, 400);
         graph.setRenderLines(true);
+        graph.setTitle("Performance Over Time").setxAxis("Generation").setyAxis("Accuracy");
         Csv csv = new Csv();
         csv.parse("C:\\Users\\JC200\\Desktop\\Heap_Tree_Train_67.csv");
         for (int i = 1; i < csv.getRows(); i++) {
