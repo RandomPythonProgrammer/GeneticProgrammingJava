@@ -73,4 +73,12 @@ public class Csv {
         data.add(new ArrayList<>(line));
         return this;
     }
+
+    public int getRows(){
+        return data.size();
+    }
+
+    public int getColumns() {
+        return data.get(0).size();
+    }
 }
