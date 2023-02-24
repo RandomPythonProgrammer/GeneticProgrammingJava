@@ -137,7 +137,7 @@ public class Graph {
         }
 
         if (xAxis != null) {
-            graphics.drawString(xAxis, width / 2f - ((xAxis.length() / 2f) * fontSize * 4 / 3) / 2, height - fontSize * 4f / 3);
+            graphics.drawString(xAxis, width / 2f - ((xAxis.length() / 2f) * fontSize * 4 / 3) / 2, height - (fontSize * 4f / 3)/2);
         }
 
         if (yAxis != null) {

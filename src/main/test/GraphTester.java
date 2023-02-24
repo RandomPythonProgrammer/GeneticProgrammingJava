@@ -5,9 +5,8 @@ import java.util.List;
 
 public class GraphTester {
     public static void main(String[] args) {
-        Graph graph = new Graph(500, 400);
-        graph.setRenderLines(true);
-        graph.setTitle("Performance Over Time").setxAxis("Generation").setyAxis("Accuracy");
+        Graph graph = new Graph(750, 500);
+        graph.setRenderLines(true).setTitle("Performance Over Time").setxAxis("Generation").setyAxis("Accuracy").setFontSize(15);
         Csv csv = new Csv();
         csv.parse("C:\\Users\\JC200\\Desktop\\Heap_Tree_Train_67.csv");
         for (int i = 1; i < csv.getRows(); i++) {
