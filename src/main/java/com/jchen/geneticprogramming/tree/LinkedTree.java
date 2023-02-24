@@ -1,9 +1,7 @@
 package com.jchen.geneticprogramming.tree;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.function.IntSupplier;
 
 public class LinkedTree implements Tree {
 
@@ -27,7 +25,7 @@ public class LinkedTree implements Tree {
         if (depth < this.DEPTH) {
             ArrayList<LinkedTreeNode> children = new ArrayList<>();
             double random = Math.random();
-            if (random >= ((double) depth)/(DEPTH * 10)) {
+            if (random >= ((double) depth) / (DEPTH * 10)) {
                 childCount = 2;
             }
             for (int i = 0; i < childCount; i++) {
@@ -39,6 +37,7 @@ public class LinkedTree implements Tree {
         node.generate(childCount != 0);
         return node;
     }
+
     public LinkedTreeNode getNode(List<Integer> indexes) {
         current = root;
         for (int i : indexes) {
@@ -62,7 +61,7 @@ public class LinkedTree implements Tree {
         return this;
     }
 
-    private void mutate(LinkedTreeNode node, double rate){
+    private void mutate(LinkedTreeNode node, double rate) {
         if (Math.random() <= rate) {
             node.generate(node.getChildren().size() != 0);
         }
@@ -74,8 +73,8 @@ public class LinkedTree implements Tree {
         double random = Math.random();
         Tree clone = clone();
         Tree otherClone = other.clone();
-        LinkedTree target = (LinkedTree) (random < 0.5 ? clone: otherClone);
-        LinkedTree origin = (LinkedTree) (random < 0.5 ? otherClone: clone);
+        LinkedTree target = (LinkedTree) (random < 0.5 ? clone : otherClone);
+        LinkedTree origin = (LinkedTree) (random < 0.5 ? otherClone : clone);
 
         List<TreeNode> targetNodes = target.toList();
         List<TreeNode> originNodes = origin.toList();
@@ -106,9 +105,9 @@ public class LinkedTree implements Tree {
         return toList(root);
     }
 
-    private List<TreeNode> toList(LinkedTreeNode node){
+    private List<TreeNode> toList(LinkedTreeNode node) {
         ArrayList<TreeNode> nodes = new ArrayList<>(List.of(node));
-        for (LinkedTreeNode child: node.getChildren()){
+        for (LinkedTreeNode child : node.getChildren()) {
             nodes.addAll(toList(child));
         }
         return nodes;
@@ -133,7 +132,7 @@ public class LinkedTree implements Tree {
                     return ~(a & b);
             }
         } else {
-            if (node.getData().equals("input")){
+            if (node.getData().equals("input")) {
                 return input;
             } else {
                 return Integer.parseInt(node.getData());
