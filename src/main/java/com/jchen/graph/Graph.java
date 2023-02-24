@@ -17,6 +17,7 @@ public class Graph {
     private int fontSize;
     private int strokeSize;
     private String title, xAxis, yAxis;
+    private int vLines, hLines;
 
     public Graph(int width, int height) {
         points = new ArrayList<>();
@@ -25,6 +26,43 @@ public class Graph {
         this.height = height;
         strokeSize = 3;
         fontSize = 10;
+        vLines = hLines = 10;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public Graph setWidth(int width) {
+        this.width = width;
+        return this;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public Graph setHeight(int height) {
+        this.height = height;
+        return this;
+    }
+
+    public int getVLines() {
+        return vLines;
+    }
+
+    public Graph setVLines(int vLines) {
+        this.vLines = vLines;
+        return this;
+    }
+
+    public int getHLines() {
+        return hLines;
+    }
+
+    public Graph setHLines(int hLines) {
+        this.hLines = hLines;
+        return this;
     }
 
     public String getTitle() {
@@ -110,7 +148,7 @@ public class Graph {
 
         graphics.setFont(new Font("Arial", Font.PLAIN, fontSize));
         graphics.setColor(Color.BLACK);
-        double xInterval = maxX / 10;
+        double xInterval = maxX / vLines;
         for (double x = 0; x <= maxX; x += xInterval) {
             int scaledX = (int) (((x / maxX) * 0.8 + 0.1) * width);
             int scaledY = height - (int) (height * 0.1 - fontSize * 4 / 3);
@@ -121,7 +159,7 @@ public class Graph {
             graphics.drawLine(scaledX, (int) (scaledY - fontSize * 4f / 3), scaledX, topY);
         }
 
-        double yInterval = maxY / 10;
+        double yInterval = maxY / hLines;
         for (double y = 0; y <= maxY; y += yInterval) {
             int scaledX = (int) (width * 0.1);
             int scaledY = height - (int) (((y / maxY) * 0.8 + 0.1) * height);
