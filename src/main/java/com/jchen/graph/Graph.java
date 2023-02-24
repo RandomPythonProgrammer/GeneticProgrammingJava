@@ -13,19 +13,32 @@ public class Graph {
     private List<List<Point>> points;
     private boolean renderLines;
 
+    private int strokeSize;
+
     public Graph(int width, int height) {
         points = new ArrayList<>();
         renderLines = false;
         this.width = width;
         this.height = height;
+        strokeSize = 3;
+    }
+
+    public int getStrokeSize() {
+        return strokeSize;
+    }
+
+    public Graph setStrokeSize(int strokeSize) {
+        this.strokeSize = strokeSize;
+        return this;
     }
 
     public boolean isRenderLines() {
         return renderLines;
     }
 
-    public void setRenderLines(boolean renderLines) {
+    public Graph setRenderLines(boolean renderLines) {
         this.renderLines = renderLines;
+        return this;
     }
 
     public Graph addPoint(int group, Point point) {
@@ -41,7 +54,7 @@ public class Graph {
 
     public Graph save(File file) {
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-        Graphics graphics = image.getGraphics();
+        Graphics2D graphics = (Graphics2D) image.getGraphics();
         graphics.setColor(Color.WHITE);
         graphics.fillRect(0, 0, width, height);
         double maxX = Double.NEGATIVE_INFINITY;
@@ -62,11 +75,12 @@ public class Graph {
                 Point point = group.get(j);
                 int scaledX = (int) ((point.getX() / maxX) * width);
                 int scaledY = height - (int) ((point.getY() / maxY) * height);
-                graphics.fillOval(scaledX, scaledY, 2, 2);
+                graphics.fillOval(scaledX, scaledY, strokeSize, strokeSize);
                 if (renderLines && j > 0) {
                     Point last = group.get(j - 1);
                     int lastScaledX = (int) ((last.getX() / maxX) * width);
                     int lastScaledY = height - (int) ((last.getY() / maxY) * height);
+                    graphics.setStroke(new BasicStroke(strokeSize));
                     graphics.drawLine(lastScaledX, lastScaledY, scaledX, scaledY);
                 }
             }
