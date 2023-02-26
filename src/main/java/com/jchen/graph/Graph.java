@@ -2,6 +2,7 @@ package com.jchen.graph;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -192,10 +193,11 @@ public class Graph {
         graphics.setColor(Color.BLACK);
         double xInterval = maxX / vLines;
         for (double x = 0; x <= maxX || doubleString(x, precision).equals(doubleString(maxX, precision)); x += xInterval) {
-            int scaledX = (int) (((x / maxX) * 0.8 + 0.1) * width);
-            int scaledY = height - (int) (height * 0.1 - fontSize * 4 / 3);
             String text = doubleString(x, precision);
-            graphics.drawString(text, scaledX - ((text.length() / 2f) * fontSize * 4 / 3) / 2, scaledY);
+            Rectangle2D textBounds = getBounds(text, graphics);
+            int scaledX = (int) (((x / maxX) * 0.8 + 0.1) * width);
+            int scaledY = height - (int) (height * 0.1 - textBounds.getHeight());
+            graphics.drawString(text, (float) (scaledX - textBounds.getWidth() / 2), scaledY);
             graphics.setStroke(new BasicStroke(strokeSize / 2f));
             int topY = (int) (height * 0.1);
             graphics.drawLine(scaledX, (int) (scaledY - fontSize * 4f / 3), scaledX, topY);
@@ -203,25 +205,29 @@ public class Graph {
 
         double yInterval = maxY / hLines;
         for (double y = 0; y <= maxY || doubleString(y, precision).equals(doubleString(maxY, precision)); y += yInterval) {
+            String text = doubleString(y, precision);
+            Rectangle2D textBounds = getBounds(text + " ", graphics);
             int scaledX = (int) (width * 0.1);
             int scaledY = height - (int) (((y / maxY) * 0.8 + 0.1) * height);
-            String text = doubleString(y, precision);
-            graphics.drawString(text, scaledX - (text.length() * fontSize * 4f / 3) / 2, scaledY + (fontSize * 4 / 3f) / 4);
+            graphics.drawString(text, (float) (scaledX - textBounds.getWidth()), (float) (scaledY + textBounds.getHeight() / 4));
             graphics.setStroke(new BasicStroke(strokeSize / 2f));
             int topX = (int) (width * 0.9);
             graphics.drawLine(scaledX, scaledY, topX, scaledY);
         }
 
         if (title != null) {
-            graphics.drawString(title, width / 2f - ((title.length() / 2f) * fontSize * 4 / 3) / 2, fontSize * 4f / 3);
+            Rectangle2D titleSize = getBounds(title, graphics);
+            graphics.drawString(title, (float) (width / 2d - titleSize.getWidth() / 2), (float) titleSize.getHeight());
         }
 
         if (xAxis != null) {
-            graphics.drawString(xAxis, width / 2f - ((xAxis.length() / 2f) * fontSize * 4 / 3) / 2, height - (fontSize * 4f / 3) / 2);
+            Rectangle2D xAxisSize = getBounds(xAxis, graphics);
+            graphics.drawString(xAxis, (float) (width / 2d - xAxisSize.getWidth() / 2), (float) (height - xAxisSize.getHeight() / 2));
         }
 
         if (yAxis != null) {
-            BufferedImage text = new BufferedImage((int) ((yAxis.length() * 4f / 3 * fontSize) / 2), (int) (4f / 3 * fontSize * 1.5), BufferedImage.TYPE_INT_ARGB);
+            Rectangle2D yAxisSize = getBounds(yAxis, graphics);
+            BufferedImage text = new BufferedImage((int) yAxisSize.getWidth(), (int) (yAxisSize.getHeight() * 1.5), BufferedImage.TYPE_INT_ARGB);
             Graphics2D textGraphics = (Graphics2D) text.getGraphics();
             textGraphics.setFont(new Font("Arial", Font.PLAIN, fontSize));
             textGraphics.setColor(Color.BLACK);
@@ -252,8 +258,9 @@ public class Graph {
 
         for (int i = 0; i < legend.size(); i++) {
             String label = legend.get(i);
-            double scaledY = height * 0.9 - (legend.size() - i - 1 + 0.5) * (fontSize * 4f / 3);
-            double scaledX = width * 0.9 - (label.length() * (fontSize * 4f / 3) / 2);
+            Rectangle2D labelSize = getBounds(label + " ", graphics);
+            double scaledY = height * 0.9 - (legend.size() - i - 1 + 0.5) * labelSize.getHeight();
+            double scaledX = width * 0.9 - labelSize.getWidth();
             graphics.setColor(Color.getHSBColor((i * 0.35f) % 1, 1, 0.75f));
             graphics.drawString(label, (int) scaledX, (int) scaledY);
         }
@@ -284,5 +291,17 @@ public class Graph {
             points.get(group).add(new Point(x.get(i), y.get(i)));
         }
         return this;
+    }
+
+    private static Rectangle2D getBounds(String input, Graphics2D graphics) {
+        return graphics.getFont().getStringBounds(input, graphics.getFontRenderContext());
+    }
+
+    private static double getWidth(String input, Graphics2D graphics) {
+        return getBounds(input, graphics).getWidth();
+    }
+
+    private static double getHeight(String input, Graphics2D graphics) {
+        return getBounds(input, graphics).getHeight();
     }
 }

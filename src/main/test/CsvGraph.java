@@ -4,11 +4,11 @@ import com.jchen.graph.Graph;
 import java.io.File;
 import java.util.List;
 
-public class CsvGraphTest {
+public class CsvGraph {
     public static void main(String[] args) {
         File dataFolder = new File("C:\\Users\\Joshua\\Documents\\research_data\\training_data\\heap_tree");
         File[] files = dataFolder.listFiles();
-        for (int i = 0; i < files.length; i++) {
+        for (int i = 0; i < 1; i++) {
             Csv csv = new Csv();
             csv.parse(files[i]);
             Graph graph = csv
