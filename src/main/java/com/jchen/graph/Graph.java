@@ -15,7 +15,7 @@ public class Graph {
     private int width, height;
     private List<List<Point>> points;
     private List<String> legend;
-    private boolean renderLines;
+    private boolean renderLines, renderPoints;
     private int fontSize;
     private int strokeSize;
     private String title, xAxis, yAxis;
@@ -26,12 +26,22 @@ public class Graph {
         points = new ArrayList<>();
         legend = new ArrayList<>();
         renderLines = false;
+        renderPoints = true;
         this.width = 750;
         this.height = 500;
         strokeSize = 3;
         fontSize = 10;
         vLines = hLines = 10;
         precision = 3;
+    }
+
+    public boolean isRenderPoints() {
+        return renderPoints;
+    }
+
+    public Graph setRenderPoints(boolean renderPoints) {
+        this.renderPoints = renderPoints;
+        return this;
     }
 
     public Graph setSize(int width, int height) {
@@ -245,7 +255,8 @@ public class Graph {
                 Point point = group.get(j);
                 int scaledX = (int) ((point.getX() / maxX) * width * 0.8 + width * 0.1);
                 int scaledY = height - (int) ((point.getY() / maxY) * height * 0.8 + height * 0.1);
-                graphics.fillOval(scaledX - strokeSize, scaledY - strokeSize, strokeSize * 2, strokeSize * 2);
+                if (renderPoints)
+                    graphics.fillOval(scaledX - strokeSize, scaledY - strokeSize, strokeSize * 2, strokeSize * 2);
                 if (renderLines && j > 0) {
                     Point last = group.get(j - 1);
                     int lastScaledX = (int) ((last.getX() / maxX) * width * 0.8 + width * 0.1);
