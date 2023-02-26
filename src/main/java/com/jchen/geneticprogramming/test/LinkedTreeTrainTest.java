@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class LinkedTreeTrainTest {
     public static void main(String[] args) {
-        for (int i = 0; i < 100; i++) {
+        for (int i = 100; i < 500; i++) {
             Map<Tree, Double> organisms = GeneticOperations.train(
                     1000,
                     LinkedTree.class,
@@ -16,7 +16,7 @@ public class LinkedTreeTrainTest {
                     () -> (int) (Math.random() * 10),
                     100,
                     2,
-                    String.format("C:\\Users\\JC200\\Desktop\\Research Data\\train\\linkedtree\\run 2\\Linked_Tree_Train_%d.csv", i + 1)
+                    String.format("C:\\Users\\Joshua\\Documents\\research_data\\training_data\\linked_tree\\Linked_Tree_Train_%d.csv", i + 1)
             );
         }
     }

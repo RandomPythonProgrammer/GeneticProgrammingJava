@@ -5,17 +5,17 @@ import java.util.List;
 
 public class GraphTester {
     public static void main(String[] args) {
-        Graph graph = new Graph(750, 500)
+        Graph graph = new Graph()
                 .setRenderLines(true)
                 .setTitle("Performance Over Time")
                 .setXAxis("Generation")
                 .setYAxis("Accuracy")
                 .setFontSize(15)
-                .setVLines(12)
+                .setVLines(10)
                 .addLegend("Best")
                 .addLegend("Average");
         Csv csv = new Csv();
-        csv.parse("C:\\Users\\JC200\\Desktop\\Heap_Tree_Train_67.csv");
+        csv.parse("C:\\Users\\Joshua\\Desktop\\Linked_Tree_Train_1.csv");
         for (int i = 1; i < csv.getRows(); i++) {
             List<String> row = csv.get(i);
             for (int j = 0; j < row.size(); j++) {
@@ -23,6 +23,6 @@ public class GraphTester {
                 graph.addPoint(1, Double.parseDouble(row.get(0)), Double.parseDouble(row.get(3)));
             }
         }
-        graph.save("C:\\Users\\JC200\\Desktop\\TestGraph.png");
+        graph.save("C:\\Users\\Joshua\\Desktop\\TestGraph.png");
     }
 }

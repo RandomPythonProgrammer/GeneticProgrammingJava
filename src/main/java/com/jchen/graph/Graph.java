@@ -19,16 +19,33 @@ public class Graph {
     private int strokeSize;
     private String title, xAxis, yAxis;
     private int vLines, hLines;
+    private int precision;
 
-    public Graph(int width, int height) {
+    public Graph() {
         points = new ArrayList<>();
         legend = new ArrayList<>();
         renderLines = false;
-        this.width = width;
-        this.height = height;
+        this.width = 750;
+        this.height = 500;
         strokeSize = 3;
         fontSize = 10;
         vLines = hLines = 10;
+        precision = 3;
+    }
+
+    public Graph setSize(int width, int height) {
+        this.width = width;
+        this.height = height;
+        return this;
+    }
+
+    public int getPrecision() {
+        return precision;
+    }
+
+    public Graph setPrecision(int precision) {
+        this.precision = precision;
+        return this;
     }
 
     public List<String> getLegend() {
@@ -174,10 +191,10 @@ public class Graph {
         graphics.setFont(new Font("Courier", Font.PLAIN, fontSize));
         graphics.setColor(Color.BLACK);
         double xInterval = maxX / vLines;
-        for (double x = 0; x <= maxX; x += xInterval) {
+        for (double x = 0; x <= maxX || doubleString(x, precision).equals(doubleString(maxX, precision)); x += xInterval) {
             int scaledX = (int) (((x / maxX) * 0.8 + 0.1) * width);
             int scaledY = height - (int) (height * 0.1 - fontSize * 4 / 3);
-            String text = doubleString(x);
+            String text = doubleString(x, precision);
             graphics.drawString(text, scaledX - ((text.length() / 2f) * fontSize * 4 / 3) / 2, scaledY);
             graphics.setStroke(new BasicStroke(strokeSize / 2f));
             int topY = (int) (height * 0.1);
@@ -185,10 +202,10 @@ public class Graph {
         }
 
         double yInterval = maxY / hLines;
-        for (double y = 0; y <= maxY; y += yInterval) {
+        for (double y = 0; y <= maxY || doubleString(y, precision).equals(doubleString(maxY, precision)); y += yInterval) {
             int scaledX = (int) (width * 0.1);
             int scaledY = height - (int) (((y / maxY) * 0.8 + 0.1) * height);
-            String text = doubleString(y);
+            String text = doubleString(y, precision);
             graphics.drawString(text, scaledX - (text.length() * fontSize * 4f / 3) / 2, scaledY + (fontSize * 4 / 3f) / 4);
             graphics.setStroke(new BasicStroke(strokeSize / 2f));
             int topX = (int) (width * 0.9);
@@ -200,7 +217,7 @@ public class Graph {
         }
 
         if (xAxis != null) {
-            graphics.drawString(xAxis, width / 2f - ((xAxis.length() / 2f) * fontSize * 4 / 3) / 2, height - (fontSize * 4f / 3)/2);
+            graphics.drawString(xAxis, width / 2f - ((xAxis.length() / 2f) * fontSize * 4 / 3) / 2, height - (fontSize * 4f / 3) / 2);
         }
 
         if (yAxis != null) {
@@ -222,7 +239,7 @@ public class Graph {
                 Point point = group.get(j);
                 int scaledX = (int) ((point.getX() / maxX) * width * 0.8 + width * 0.1);
                 int scaledY = height - (int) ((point.getY() / maxY) * height * 0.8 + height * 0.1);
-                graphics.fillOval(scaledX, scaledY, strokeSize, strokeSize);
+                graphics.fillOval(scaledX - strokeSize, scaledY - strokeSize, strokeSize * 2, strokeSize * 2);
                 if (renderLines && j > 0) {
                     Point last = group.get(j - 1);
                     int lastScaledX = (int) ((last.getX() / maxX) * width * 0.8 + width * 0.1);
@@ -235,8 +252,8 @@ public class Graph {
 
         for (int i = 0; i < legend.size(); i++) {
             String label = legend.get(i);
-            double scaledY = height * 0.9 - (legend.size() - i - 1 + 0.5) * (fontSize * 4f/3);
-            double scaledX = width * 0.9 - (label.length() * (fontSize * 4f/3)/2);
+            double scaledY = height * 0.9 - (legend.size() - i - 1 + 0.5) * (fontSize * 4f / 3);
+            double scaledX = width * 0.9 - (label.length() * (fontSize * 4f / 3) / 2);
             graphics.setColor(Color.getHSBColor((i * 0.35f) % 1, 1, 0.75f));
             graphics.drawString(label, (int) scaledX, (int) scaledY);
         }
@@ -253,12 +270,19 @@ public class Graph {
         return save(new File(filepath));
     }
 
-    private static String doubleString(double input) {
-        input = new BigDecimal(input).setScale(3, RoundingMode.HALF_UP).doubleValue();
+    private static String doubleString(double input, int precision) {
+        input = new BigDecimal(input).setScale(precision, RoundingMode.HALF_UP).doubleValue();
         if (((int) input) == input) {
             return String.valueOf((int) input);
         } else {
             return String.valueOf(input);
         }
+    }
+
+    public Graph addPoints(int group, List<Double> x, List<Double> y) {
+        for (int i = 0; i < x.size() && i < y.size(); i++) {
+            points.get(group).add(new Point(x.get(i), y.get(i)));
+        }
+        return this;
     }
 }
