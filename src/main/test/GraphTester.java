@@ -11,7 +11,9 @@ public class GraphTester {
                 .setxAxis("Generation")
                 .setyAxis("Accuracy")
                 .setFontSize(15)
-                .setVLines(12);
+                .setVLines(12)
+                .addLegend("Best")
+                .addLegend("Average");
         Csv csv = new Csv();
         csv.parse("C:\\Users\\JC200\\Desktop\\Heap_Tree_Train_67.csv");
         for (int i = 1; i < csv.getRows(); i++) {

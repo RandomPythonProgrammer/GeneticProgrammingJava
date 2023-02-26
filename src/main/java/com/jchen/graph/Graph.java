@@ -13,6 +13,7 @@ import java.util.List;
 public class Graph {
     private int width, height;
     private List<List<Point>> points;
+    private List<String> legend;
     private boolean renderLines;
     private int fontSize;
     private int strokeSize;
@@ -21,12 +22,32 @@ public class Graph {
 
     public Graph(int width, int height) {
         points = new ArrayList<>();
+        legend = new ArrayList<>();
         renderLines = false;
         this.width = width;
         this.height = height;
         strokeSize = 3;
         fontSize = 10;
         vLines = hLines = 10;
+    }
+
+    public List<String> getLegend() {
+        return legend;
+    }
+
+    public Graph setLegend(List<String> legend) {
+        this.legend = legend;
+        return this;
+    }
+
+    public Graph setLegend(int index, String legend) {
+        this.legend.set(index, legend);
+        return this;
+    }
+
+    public Graph addLegend(String legend) {
+        this.legend.add(legend);
+        return this;
     }
 
     public int getWidth() {
@@ -120,8 +141,12 @@ public class Graph {
     }
 
     public Graph addPoint(int group, Point point) {
-        while (group >= points.size())
+        while (group >= points.size()) {
             points.add(new ArrayList<>());
+            if (group >= legend.size()) {
+                legend.add(String.format("Line %d", points.size()));
+            }
+        }
         points.get(group).add(point);
         return this;
     }
@@ -206,6 +231,14 @@ public class Graph {
                     graphics.drawLine(lastScaledX, lastScaledY, scaledX, scaledY);
                 }
             }
+        }
+
+        for (int i = 0; i < legend.size(); i++) {
+            String label = legend.get(i);
+            double scaledY = height * 0.9 - (legend.size() - i - 1 + 0.5) * (fontSize * 4f/3);
+            double scaledX = width * 0.9 - (label.length() * (fontSize * 4f/3)/2);
+            graphics.setColor(Color.getHSBColor((i * 0.35f) % 1, 1, 0.75f));
+            graphics.drawString(label, (int) scaledX, (int) scaledY);
         }
 
         try {
