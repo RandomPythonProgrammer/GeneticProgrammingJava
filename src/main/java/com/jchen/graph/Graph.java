@@ -95,20 +95,20 @@ public class Graph {
         return this;
     }
 
-    public String getxAxis() {
+    public String getXAxis() {
         return xAxis;
     }
 
-    public Graph setxAxis(String xAxis) {
+    public Graph setXAxis(String xAxis) {
         this.xAxis = xAxis;
         return this;
     }
 
-    public String getyAxis() {
+    public String getYAxis() {
         return yAxis;
     }
 
-    public Graph setyAxis(String yAxis) {
+    public Graph setYAxis(String yAxis) {
         this.yAxis = yAxis;
         return this;
     }
