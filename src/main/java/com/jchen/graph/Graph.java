@@ -171,7 +171,7 @@ public class Graph {
             }
         }
 
-        graphics.setFont(new Font("Arial", Font.PLAIN, fontSize));
+        graphics.setFont(new Font("Courier", Font.PLAIN, fontSize));
         graphics.setColor(Color.BLACK);
         double xInterval = maxX / vLines;
         for (double x = 0; x <= maxX; x += xInterval) {
