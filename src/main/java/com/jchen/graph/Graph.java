@@ -296,12 +296,4 @@ public class Graph {
     private static Rectangle2D getBounds(String input, Graphics2D graphics) {
         return graphics.getFont().getStringBounds(input, graphics.getFontRenderContext());
     }
-
-    private static double getWidth(String input, Graphics2D graphics) {
-        return getBounds(input, graphics).getWidth();
-    }
-
-    private static double getHeight(String input, Graphics2D graphics) {
-        return getBounds(input, graphics).getHeight();
-    }
 }
