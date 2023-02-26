@@ -1,5 +1,3 @@
-package com.jchen.geneticprogramming.test;
-
 import com.jchen.geneticprogramming.algorithm.GeneticOperations;
 import com.jchen.geneticprogramming.tree.HeapTree;
 import com.jchen.geneticprogramming.tree.Tree;

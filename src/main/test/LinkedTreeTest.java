@@ -1,5 +1,3 @@
-package com.jchen.geneticprogramming.test;
-
 import com.jchen.geneticprogramming.tree.LinkedTree;
 
 public class LinkedTreeTest {
