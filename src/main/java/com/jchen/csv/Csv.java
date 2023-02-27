@@ -92,7 +92,7 @@ public class Csv {
         graph.setXAxis(getHeaders().get(xColumn));
         for (int y : yColumns)
             graph.addLegend(getHeaders().get(y));
-        for (int i = 1; i < data.size() - 1; i++) {
+        for (int i = 1; i < data.size(); i++) {
             for (int j = 0; j < yColumns.size(); j++) {
                 graph.addPoint(j, Double.parseDouble(data.get(i).get(xColumn)), Double.parseDouble(data.get(i).get(yColumns.get(j))));
             }
