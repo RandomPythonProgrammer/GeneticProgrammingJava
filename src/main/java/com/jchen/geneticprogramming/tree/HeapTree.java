@@ -9,11 +9,11 @@ import java.util.concurrent.Executors;
 public class HeapTree implements Tree {
 
     public static final int DEPTH = 5;
-    private TreeNode[] nodes;
+    protected TreeNode[] nodes;
     public static final int THREADS = 12;
-    private static final ExecutorService EXECUTOR = Executors.newFixedThreadPool(THREADS);;
+    protected static final ExecutorService EXECUTOR = Executors.newFixedThreadPool(THREADS);;
     public CyclicBarrier barrier;
-    private int size;
+    protected int size;
 
     public HeapTree(boolean generate) {
         barrier = new CyclicBarrier(THREADS + 1);
@@ -79,7 +79,7 @@ public class HeapTree implements Tree {
         return target;
     }
 
-    private void crossOver(int index, HeapTree origin, HeapTree target) {
+    protected void crossOver(int index, HeapTree origin, HeapTree target) {
         if (index < origin.getNodeCount()) {
             target.nodes[index] = origin.nodes[index];
             crossOver(2 * index + 1, origin, target);
